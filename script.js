@@ -7,7 +7,6 @@ let gridSize = slider.value;
 var board = createGrid();
 let colorSquare = '';
 let rainbowSquare = '';
-let shadingSquare = '';
 let randomColor = '';
 
 
@@ -20,16 +19,14 @@ basicBtn.addEventListener('click', colorBasic);
 // 2. Rainbow Mode (random color generated for each square)
 let rainbowBtn = document.getElementById('rainbow');
 rainbowBtn.addEventListener('click', rainbowPen);
-// 3. Shading mode
-let shadingBtn = document.getElementById('shading');
-shadingBtn.addEventListener('click', shadingPen);
-// 4. Clear the board
+// 3. Clear the board
 let clearBtn = document.getElementById('clear-board');
 clearBtn.addEventListener('click', clearBoard);
 
 function sketchPad() {
+    // initial set up with basic mode
     colorBasic()
-
+    // interact with the grid size slider to create a sketch board
     slider.oninput = function() {
         output.textContent = `${this.value} x ${this.value}`;
       }
@@ -43,7 +40,7 @@ function sketchPad() {
             child = container.lastElementChild;
         }
         board = createGrid();
-        colorMode(colorSquare,rainbowSquare,shadingSquare);
+        colorMode(colorSquare,rainbowSquare);
     }
 
     // if the user changes color, need to update color
@@ -54,6 +51,7 @@ function sketchPad() {
     
 }
 
+// create a row div
 function createRow() {
     const row = document.createElement('div');
     // add classlist for css style
@@ -62,6 +60,7 @@ function createRow() {
 
 }
 
+// create individual cell/square
 function createSquare() {
     const square = document.createElement('div');
     square.setAttribute('name', 'square');
@@ -70,7 +69,7 @@ function createSquare() {
     return square;
 }
 
-
+// append div row x column to make a grid
 function createGrid() {
     for (i = 0; i < gridSize; i++) {
         const row = createRow();
@@ -81,20 +80,23 @@ function createGrid() {
         }
     } 
 }
-function colorMode(colorSquare, rainbowSquare, shadingSquare) {
+
+// select color mode 
+function colorMode(colorSquare, rainbowSquare) {
     if (colorSquare == 'True') {
         colorBasic();
     } else if (rainbowSquare == 'True') {
         rainbowPen();
-    } else if (shadingSquare == 'True') {
-        //
     }
 }
+
+// 1. Basic: single color mode
 function colorBasic() {
     colorSquare = 'True';
-    rainbowSquare, shadingSquare = 'False';
+    rainbowSquare = 'False';
     let squares = document.getElementsByName('square');
     var flag = false;
+
     window.onmouseup = () => {flag = false};
     squares.forEach(square => {
         square.onmouseover = () => {
@@ -106,10 +108,10 @@ function colorBasic() {
             square.style.backgroundColor= color; 
             flag = true;
         }
-})
-
+    })
 }
 
+// random color generator
 function makeRandomColor() {
     var letters = '0123456789ABCDEF';
     var color = '#';
@@ -118,10 +120,11 @@ function makeRandomColor() {
     }
     return color;
 }
+
+// 2. Rainbow color mode
 function rainbowPen() {
-    randomColor = makeRandomColor();
     rainbowSquare = 'True';
-    colorSquare,shadingSquare = 'False';
+    colorSquare = 'False';
     let squares = document.getElementsByName('square');
     var flag = false;
     
@@ -129,28 +132,37 @@ function rainbowPen() {
     squares.forEach(square => {
         square.onmouseover = () => {
             if (flag) {
-                
-                square.style.backgroundColor = randomColor = makeRandomColor();
+                square.style.backgroundColor =  makeRandomColor();
             }
         }
         square.onmousedown = () => {
-            square.style.backgroundColor= randomColor = makeRandomColor();
+            square.style.backgroundColor= makeRandomColor();
             flag = true;
         }
-})
-
+    })
 }
 
-function shadingPen() {
-    
-}
 
+function increaseOpacity(elem) {
+    setInterval(function() {
+        var opacity = elem.style.opacity;
+        if (opacity < 1) {
+           opacity += 0.1;
+           elem.style.opacity = opacity;
+        } else {
+            clearInterval(interval); // Stop the interval when opacity reaches 0
+            el.style.display = 'none';
+        }
+    },1);
+
+}
 
 // clear the board
 function clearBoard() {
     let squares = document.getElementsByName('square');
     squares.forEach(square => {
-        square.style.backgroundColor = 'white';
+        square.style.background = 'white';
+        square.style.opacity = 1;
     })
 }
 

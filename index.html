@@ -3,10 +3,35 @@
 <head>
   <meta charset="UTF-8">
   <title>Etch-A-Sketch</title>
-
+  <!-- font for header -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Micro+5+Charted&display=swap" rel="stylesheet">
+  <!-- font for body -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jaro:opsz@6..72&family=Micro+5+Charted&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <header class="header">
+    <h1 class="title">Etch-A-Sketch</h1>
+  </header>
+  <div class="ui">
+    <div class="menu" id="menu">
+      <h3 class="menu-title">Menu</h3>
+      <!-- color picker -->
+      <label for="favcolor">Pick color</label>
+      <input type="color" id="favcolor" name="favcolor" value="#000000">
+      <div class="slide-container">
+        <input type="range" min="10" max="100" value="16" class= "slider" id="myRange">
+        <div class="grid-size-text" id="size-text">16 x 16</div>
+      </div>
+    </div>
+    <div class="grid" id="grid"></div>
+
+  </div>
+  
   <script src="script.js"></script>
 </body>
 </html>
